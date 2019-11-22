@@ -18,6 +18,12 @@ module Enumerable
     end
   end
 
+  def my_select
+    array = []
+    self.my_each { |x| array << x if yield(x) }
+    return array
+  end
+
 end
 
 # test
@@ -34,11 +40,19 @@ puts " "
 print "each output\: "
 array1.each { |item| print item }
 puts " "
-=end
+
 # my_each_with_index
 print "my_each_with_index output\: "
 array1.my_each_with_index { |item| print item }
 puts " "
 print "each_with_index output\: "
 array1.each_with_index { |item| print item }
+puts " "
+=end
+# my_select
+print "my_select output\: "
+print array1.my_select { |item| item > 2 }
+puts " "
+print "select output\: "
+print array1.select { |item| item > 2 }
 puts " "
