@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Enumerable
-
   def my_each
     x = 0
-    while x < self.size
-      yield(self[x])
+    selfitem = self
+    while x < selfitem.size
+      yield(selfitem[x])
       x += 1
     end
   end
@@ -23,7 +23,6 @@ module Enumerable
     self.my_each { |x| array << x if yield(x) }
     return array
   end
-
 end
 
 # test
@@ -32,7 +31,7 @@ array1 = [1, 2, 3, 4, 5]
 array2 = [1, 1, 2, 2, 2]
 testproc = Proc.new { |x| x * x }
 
-=begin
+#=begin
 # my_each
 print "my_each output\: "
 array1.my_each { |item| print item }
@@ -48,7 +47,7 @@ puts " "
 print "each_with_index output\: "
 array1.each_with_index { |item| print item }
 puts " "
-=end
+#=end
 # my_select
 print "my_select output\: "
 print array1.my_select { |item| item > 2 }
