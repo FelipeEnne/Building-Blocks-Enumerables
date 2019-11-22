@@ -36,7 +36,7 @@ module Enumerable
     selfitem = self
     if !block_given?
       selfitem.my_each do |x|
-        return true unless x != false && x != nil
+        return true unless x != false
       end
     elsif block_given?
       selfitem.my_each { |x| return false unless yield(x) }
@@ -99,7 +99,7 @@ module Enumerable
     sum = 0
     selfitem = self
 
-    if args.length != 0
+    if args.!empty?
       sum = args[0]
       selfitem.my_each { |x| sum = yield(sum, x) }
     else
