@@ -1,3 +1,10 @@
+# test
+include Enumerable
+array1 = [1, 2, 3, 4, 5]
+array2 = [1, 1, 2, 2, 2]
+testproc = Proc.new { |x| x * x }
+
+#=begin
 # my_each
 print "my_each output\: "
 array1.my_each { |item| print item }
@@ -76,3 +83,31 @@ print " / "
 print array2.count {|number| number == 2}
 puts " "
 
+# my_map
+print "my_map output\:"
+print array1.my_map { |x| x * x }
+print " / "
+print array1.my_map(&testproc)
+puts " "
+
+print "map output\:"
+print array1.map { |x| x * x }
+print " / "
+print array1.map(&testproc)
+puts " "
+
+# my_inject
+print "my_inject output\: "
+print array1.my_inject { |sum, n| sum + n }
+puts " "
+
+print "inject output\: "
+print array1.inject { |sum, n| sum + n }
+puts " "
+
+
+print "multiply_els output\:"
+print multiply_els([2,4,5])
+puts " "
+
+#=end
