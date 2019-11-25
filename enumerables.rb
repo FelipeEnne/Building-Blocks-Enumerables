@@ -32,12 +32,12 @@ module Enumerable
     array
   end
 
-  def my_all?
+  def my_all?(defualt = nil)
     selfitem = self
-    if !block_given?
-      selfitem.my_each do |x|
-        return true unless x != false
-      end
+    if !block_given? && defualt.nil?
+      selfitem.my_each { |x| return false unless x }
+    elsif defualt.is_a? Regexp
+      selfitem.my_each { |x| return false unless x =~ defualt }
     elsif block_given?
       selfitem.my_each { |x| return false unless yield(x) }
     else
@@ -46,26 +46,26 @@ module Enumerable
     true
   end
 
-  def my_any?
+  def my_any?(defualt = nil)
     selfitem = self
-    if !block_given?
-      selfitem.my_each do |x|
-        return true if x == true
-      end
+    if !block_given? && defualt.nil?
+      selfitem.my_each { |x| return true if x }
+    elsif defualt.is_a? Regexp
+      selfitem.my_each { |x| return true if x =~ defualt }
     elsif block_given?
       selfitem.my_each { |x| return true if yield(x) }
     else
-      selfitem.my_each { |x| return true if yield(x) }
+      selfitem.my_each { |x| return true if x }
     end
     false
   end
 
-  def my_none?
+  def my_none?(defualt = nil)
     selfitem = self
-    if !block_given?
-      selfitem.my_each do |x|
-        return false if x == true
-      end
+    if !block_given? && defualt.nil?
+      selfitem.my_each { |x| return false if x }
+    elsif defualt.is_a? Regexp
+      selfitem.my_each { |x| return false if x =~ defualt }
     elsif block_given?
       selfitem.my_each { |x| return false if yield(x) }
     else
@@ -74,17 +74,25 @@ module Enumerable
     true
   end
 
-  def my_count
-    return length unless block_given?
+  def my_count(defualt = nil)
+    return length unless block_given? || !defualt.nil?
 
     array = []
+    counter = 0
     selfitem = self
-    selfitem.my_each { |x| array << x if yield(x) }
-    cont = array.length
-    cont
+    if !defualt.nil?
+      selfitem.my_each { |x| counter += 1 if x == defualt }
+      counter
+    else
+      selfitem.my_each { |x| array << x if yield(x) }
+      cont = array.length
+      cont
+    end
   end
 
   def my_map(proc = nil)
+    return to_enum unless block_given?
+
     array = []
     selfitem = self
     if proc == true
@@ -98,14 +106,16 @@ module Enumerable
   def my_inject(*args)
     sum = 0
     selfitem = self
-
-    if args.!empty?
-      sum = args[0]
-      selfitem.my_each { |x| sum = yield(sum, x) }
+    if block_given?
+      arr = to_a
+      sum = args[0].nil? ? my_arr[0] : args[0]
+      arr.shift if args[0].nil?
+      arr.each { |x| sum = yield(sum, x) }
     else
       sum = selfitem[0]
       selfitem[1..-1].my_each { |x| sum = yield(sum, x) }
     end
+    sum
   end
 
   def multiply_els(array)
