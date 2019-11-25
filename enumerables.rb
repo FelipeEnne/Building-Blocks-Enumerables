@@ -128,3 +128,9 @@ module Enumerable
     array.my_inject(1) { |x, y| x * y }
   end
 end
+
+# rubocop: enable Metrics/CyclomaticComplexity
+
+# rubocop: enable Metrics/PerceivedComplexity
+
+# rubocop: enable Metrics/ModuleLength
