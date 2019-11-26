@@ -158,5 +158,3 @@ end
 # rubocop: enable Metrics/PerceivedComplexity
 
 # rubocop: enable Metrics/ModuleLength
-
-include Enumerable
