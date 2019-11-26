@@ -158,7 +158,13 @@ longest = %w{ cat sheep bear }.my_inject1 do |memo, word|
    memo.length > word.length ? memo : word
 end
 puts longest                                        #=> "sheep"
+
 puts""
+
+
+array = [4,7,8,89,9,6,5,12,4,2,5]
+puts array.my_inject(2, :*)
+puts array.inject(2, :*)  
 
 array = [4,7,8,89,9,6,5,12,4,2,5]
 operation = proc { |sum, n| sum + n  }

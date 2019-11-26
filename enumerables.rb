@@ -135,6 +135,11 @@ module Enumerable
         symbol = args[0]
         sum = arr[0]
         arr[1..-1].my_each { |x| sum = sum.send(symbol, x) }
+      else
+        arr = to_a
+        symbol = args[1]
+        sum = args[0]
+        arr.my_each { |x| sum = sum.send(symbol, x) }
       end
     else
       sum = selfitem[0]
@@ -153,3 +158,5 @@ end
 # rubocop: enable Metrics/PerceivedComplexity
 
 # rubocop: enable Metrics/ModuleLength
+
+include Enumerable
