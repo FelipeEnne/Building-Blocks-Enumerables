@@ -124,11 +124,19 @@ module Enumerable
   def my_inject(*args)
     sum = 0
     selfitem = self
+    array = []
     if block_given?
-      arr = to_a
+      arr = dup.to_a
       sum = args[0].nil? ? arr[0] : args[0]
       arr.shift if args[0].nil?
       arr.each { |x| sum = yield(sum, x) }
+    elsif !block_given?
+      arr = to_a
+      if args[1].nil?
+        symbol = args[0]
+        sum = arr[0]
+        arr[1..-1].my_each { |x| sum = sum.send(symbol, x) }
+      end
     else
       sum = selfitem[0]
       selfitem[1..-1].my_each { |x| sum.send(sum, x) }

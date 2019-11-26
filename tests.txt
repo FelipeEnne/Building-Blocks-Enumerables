@@ -160,6 +160,15 @@ end
 puts longest                                        #=> "sheep"
 puts""
 
+array = [4,7,8,89,9,6,5,12,4,2,5]
+operation = proc { |sum, n| sum + n  }
+p array.my_inject(&operation)
+p array.inject(&operation) # false
+
+ array = [1,7,8,89,9,6,5,12,4,2,5]
+p array.my_inject(:+) 
+p array.inject(:+) 
+
 print "multiply_els output\:"
 print multiply_els([2,4,5])
 puts " "
