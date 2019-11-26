@@ -43,7 +43,7 @@ module Enumerable
     if !block_given? && defualt.nil?
       selfitem.my_each { |x| return false unless x }
     elsif defualt.is_a? Regexp
-      selfitem.my_each { |x| return false unless x defualt }
+      selfitem.my_each { |x| return false unless x =~ defualt }
     elsif defualt.is_a? Class
       selfitem.my_each { |x| return false unless x.is_a? defualt }
     elsif defualt
