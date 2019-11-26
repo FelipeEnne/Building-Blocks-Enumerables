@@ -43,7 +43,11 @@ module Enumerable
     if !block_given? && defualt.nil?
       selfitem.my_each { |x| return false unless x }
     elsif defualt.is_a? Regexp
-      selfitem.my_each { |x| return false unless x =~ defualt }
+      selfitem.my_each { |x| return false unless x defualt }
+    elsif defualt.is_a? Class
+      selfitem.my_each { |x| return false unless x.is_a? defualt }
+    elsif defualt
+      selfitem.my_each { |x| return false unless x == defualt }
     elsif block_given?
       selfitem.my_each { |x| return false unless yield(x) }
     else
@@ -58,6 +62,10 @@ module Enumerable
       selfitem.my_each { |x| return true if x }
     elsif defualt.is_a? Regexp
       selfitem.my_each { |x| return true if x =~ defualt }
+    elsif defualt.is_a? Class
+      selfitem.my_each { |x| return true if x.is_a? defualt }
+    elsif defualt
+      selfitem.my_each { |x| return true if x == defualt }
     elsif block_given?
       selfitem.my_each { |x| return true if yield(x) }
     else
@@ -72,6 +80,10 @@ module Enumerable
       selfitem.my_each { |x| return false if x }
     elsif defualt.is_a? Regexp
       selfitem.my_each { |x| return false if x =~ defualt }
+    elsif defualt.is_a? Class
+      selfitem.my_each { |x| return false if x.is_a? defualt }
+    elsif defualt
+      selfitem.my_each { |x| return false if x == defualt }
     elsif block_given?
       selfitem.my_each { |x| return false if yield(x) }
     else
@@ -114,12 +126,12 @@ module Enumerable
     selfitem = self
     if block_given?
       arr = to_a
-      sum = args[0].nil? ? my_arr[0] : args[0]
+      sum = args[0].nil? ? arr[0] : args[0]
       arr.shift if args[0].nil?
       arr.each { |x| sum = yield(sum, x) }
     else
       sum = selfitem[0]
-      selfitem[1..-1].my_each { |x| sum = yield(sum, x) }
+      selfitem[1..-1].my_each { |x| sum.send(sum, x) }
     end
     sum
   end

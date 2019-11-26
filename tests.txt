@@ -3,6 +3,7 @@ include Enumerable
 array1 = [1, 2, 3, 4, 5]
 array2 = [1, 1, 2, 2, 2]
 testproc = Proc.new { |x| x * x }
+str = "xyz"
 
 #=begin
 # my_each
@@ -12,6 +13,12 @@ puts " "
 print "each output\: "
 array1.each { |item| print item }
 puts " "
+
+enum = str.enum_for(:each_byte)
+puts enum.each { |b| print b }
+puts ""
+my_each = str.enum_for(:each_byte)
+puts my_each.each { |b| print b }
 
 # my_each_with_index
 print "my_each_with_index output\: "
@@ -59,7 +66,8 @@ print [nil, true, 99].all?                              #=> false
 print " / "
 print [].all?                                           #=> true
 puts " "
-
+puts [1, 0, 2.1].my_all?(Integer)  #=> false
+puts [1, 0, 2.1].my_all?(3)  #=> false
 
 # my_any?
 puts %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
@@ -75,7 +83,7 @@ puts %w[ant bear cat].my_any?(/d/)                        #=> false
 puts [nil, true, 99].my_any?(Integer)                     #=> true
 puts [nil, true, 99].my_any?                              #=> true
 puts [].my_any?                                           #=> false
-
+puts %w[dog door rod blade].my_any? 'cat'
 
 # my_none?
 puts %w{ant bear cat}.none? { |word| word.length == 5 } #=> true
