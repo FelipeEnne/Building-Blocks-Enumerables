@@ -124,7 +124,6 @@ module Enumerable
   def my_inject(*args)
     sum = 0
     selfitem = self
-    array = []
     if block_given?
       arr = dup.to_a
       sum = args[0].nil? ? arr[0] : args[0]
